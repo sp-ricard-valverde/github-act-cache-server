@@ -7,6 +7,12 @@ const PORT = 8080;
 
 server.use(bodyParser.json());
 
+server.get('/', (req, res) => {
+    res.status(200).send({
+        status: 'success'
+    })
+})
+
 server.post('/_apis/pipelines/workflows/:runId/artifacts', (req, res) => {
     const {runId} = req.params;
     const baseURL = `${req.protocol}://${req.get('host')}${req.baseUrl}`;
