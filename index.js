@@ -51,7 +51,7 @@ server.get('/download/:container', (req, res) => {
         files.add({
             path: name,
             itemType: 'file',
-            contentLocation: `${baseURL}/download/${container}/${name}`
+            contentLocation: `${baseURL}/download/${container}/${name.replace('\\', '/')}`
         });
     })
     res.status(200).json({value: [...files]})
