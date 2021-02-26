@@ -5,9 +5,12 @@ const path = require('path');
 const {totalist} = require('totalist/sync');
 const server = express();
 const PORT = process.env.PORT || 8080;
-const IS_WINDOWS = process.platform === 'win32';
 
 server.use(bodyParser.json());
+server.use(bodyParser.raw({
+    type: 'application/octet-stream',
+    limit: '50mb'
+}))
 
 server.get('/', (req, res) => {
     res.status(200).send({
@@ -65,10 +68,6 @@ server.get('/download/:container/:path(*)', (req, res) => {
     fs.createReadStream(path, {encoding: 'utf-8'}).pipe(res);
 });
 
-server.use(bodyParser.raw({
-    type: 'application/octet-stream',
-    limit: '50mb'
-}))
 server.put('/upload/:runId', (req, res, next) => {
     const { itemPath } = req.query;
     const {runId} = req.params;
