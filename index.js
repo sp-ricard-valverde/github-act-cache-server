@@ -35,11 +35,12 @@ server.get('/_apis/pipelines/workflows/:runId/artifacts', (req, res) => {
     totalist(`./${runId}`, (name, abs, stats) => {
         name = name.replace('\\', '/');
         const fileDetails = {
-            name: path.normalize(name).split('/')[0],
+            name: name.split('/')[0],
             fileContainerResourceUrl: `${baseURL}/download/${runId}`
         }
         artifacts.add(fileDetails);
     });
+    console.log(artifacts);
     res.status(200).json({count: artifacts.count, value: [...artifacts]});
 });
 
