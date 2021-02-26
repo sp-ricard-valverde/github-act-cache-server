@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs-extra');
+const path = require('path');
 const {totalist} = require('totalist/sync');
 const server = express();
 const PORT = process.env.PORT || 8080;
+const IS_WINDOWS = process.platform === 'win32';
 
 server.use(bodyParser.json());
 
@@ -33,7 +35,7 @@ server.get('/_apis/pipelines/workflows/:runId/artifacts', (req, res) => {
     totalist(`./${runId}`, (name, abs, stats) => {
         name = name.replace('\\', '/');
         const fileDetails = {
-            name: name.split('/')[0],
+            name: path.normalize(name).split('/')[0],
             fileContainerResourceUrl: `${baseURL}/download/${runId}`
         }
         artifacts.add(fileDetails);
@@ -49,7 +51,7 @@ server.get('/download/:container', (req, res) => {
         console.log(name);
         console.log(abs);
         files.add({
-            path: name,
+            path: path.normalize(name),
             itemType: 'file',
             contentLocation: `${baseURL}/download/${container}/${name.replace('\\', '/')}`
         });
@@ -71,13 +73,13 @@ server.put('/upload/:runId', (req, res, next) => {
     const {runId} = req.params;
     req.setEncoding('base64');
     fs.ensureFileSync(`${runId}/${itemPath}`);
-    fs.writeFile(`${runId}/${itemPath}`, req.body, {encoding: 'utf-8'}, (err) => {
+    fs.writeFile(`${runId}/${path.normalize(itemPath)}`, req.body, {encoding: 'utf-8'}, (err) => {
         if (err) {
             console.error(err);
         }
         res.status(200).json({message: 'success'})
     });
-})
+});
 
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
