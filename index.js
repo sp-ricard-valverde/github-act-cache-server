@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs-extra');
@@ -11,6 +12,14 @@ server.use(bodyParser.raw({
     type: 'application/octet-stream',
     limit: '50mb'
 }))
+
+server.use((req, res, next) => {
+    if (req.get('Authorization') !== `Bearer ${process.env.AUTH_KEY}`) {
+        res.status(401).json({message: 'You are not authorized'});
+    } else {
+        next();
+    }
+})
 
 server.get('/', (req, res) => {
     res.status(200).send({
