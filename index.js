@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs-extra');
 const {totalist} = require('totalist/sync');
 const server = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 server.use(bodyParser.json());
 
