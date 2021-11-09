@@ -1,7 +1,7 @@
 {
-  "name": "artifacts-server",
+  "name": "github-act-cache-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple server to store cache artifacts for actions/cache",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
@@ -12,11 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^7.4.4",
     "body-parser": "^1.19.0",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "fs-extra": "^9.1.0",
-    "totalist": "^2.0.0"
+    "fs-extra": "^9.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
