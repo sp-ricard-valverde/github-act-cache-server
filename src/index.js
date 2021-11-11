@@ -27,8 +27,6 @@ const unless = (re_paths, middleware) => {
 };
 
 const authmiddleware = (req, res, next) => {
-    console.log(process.env.AUTH_KEY);
-    console.log(req.get('Authorization'));
     if (req.get('Authorization') !== `Bearer ${process.env.AUTH_KEY}`) {
         res.status(401).json({message: 'You are not authorized'});
     } else {
