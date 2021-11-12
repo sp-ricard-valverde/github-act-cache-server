@@ -16,9 +16,13 @@ Ensure you add the following configuration to your `~/.actrc` file:
 
 ## Observations
 - You can set `ACT_CACHE_AUTH_KEY` and `ACTIONS_RUNTIME_TOKEN` to the value you want, but they must be the same
+- The cache is persisted in Docker's named volumes(when using `docker-compose`) so it will survive between containers
+- To purge the cache use the endpoint `/_apis/artifactcache/clean`. ie
+````
+curl -X POST -H 'Authorization: Bearer foo' 'http://localhost:8080/_apis/artifactcache/clean'
+````
 
 ## Caveats
-- The cache is persisted only as long as the container, intentionally. If you want to persist the cache between containers you will need set volumes for `/usr/src/app/.caches` and `/usr/local/etc/`
 - The caching is global, meaning that it's shared across git projects and branches. As the container lacks the information of the Github context the action is running on it does not have access to `GITHUB_REPOSITORY`, `GITHUB_REF` or `GITHUB_BASE_REF` so it can do a better job restoring fallback caches or switching branches
 
 ## Acknowledgments
