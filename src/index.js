@@ -101,7 +101,7 @@ function getMatchingPrimaryKey(primaryKey, version, restorePaths=[], exactMatch 
     }
     else
     {
-        row = db.prepare(`SELECT * FROM caches WHERE key LIKE '${primaryKey}%' AND version = '${version}'`).get();
+        row = db.prepare(`SELECT * FROM caches WHERE key LIKE '${primaryKey}%' AND version = '${version}' ORDER BY id DESC`).get();
     }
     if(row !== undefined)
     {
