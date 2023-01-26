@@ -95,7 +95,7 @@ server.get('/', (req, res) => {
 
 function getMatchingPrimaryKey(primaryKey, version, restorePaths=[], exactMatch = true) {
     let row;
-    if(exactMatch === false)
+    if(exactMatch)
     {
         row = db.prepare("SELECT * FROM caches WHERE key = ? AND version = ?").get(primaryKey, version);
     }
