@@ -95,13 +95,13 @@ server.get('/', (req, res) => {
 
 function getMatchingPrimaryKey(primaryKey, version, restorePaths=[], exactMatch = true) {
     let row;
-    if(exactMatch === false)
+    if(exactMatch)
     {
         row = db.prepare("SELECT * FROM caches WHERE key = ? AND version = ?").get(primaryKey, version);
     }
     else
     {
-        row = db.prepare(`SELECT * FROM caches WHERE key LIKE '${primaryKey}%' AND version = '${version}'`).get();
+        row = db.prepare(`SELECT * FROM caches WHERE key LIKE '${primaryKey}%' AND version = '${version}' ORDER BY id DESC`).get();
     }
     if(row !== undefined)
     {
