@@ -4,7 +4,9 @@ Spin up a local Github artifact cache server to be used with [act](https://githu
 
 ## Run
 
-`ACT_CACHE_AUTH_KEY=foo docker-compose up --build`
+```
+ACT_CACHE_AUTH_KEY=foo docker compose up --build
+```
 
 ## Act config
 Ensure you add the following configuration to your `~/.actrc` file:
