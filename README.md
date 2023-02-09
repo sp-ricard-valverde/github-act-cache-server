@@ -4,8 +4,22 @@ Spin up a local Github artifact cache server to be used with [act](https://githu
 
 ## Run
 
+### Set the environment variable for your authorization key (current terminal session only)
+
+- Linux & Mac: `export ACT_CACHE_AUTH_KEY=foo`
+- Windows Powershell: `$env:ACT_CACHE_AUTH_KEY = 'foo'`
+- Windows CMD: `setx ACT_CACHE_AUTH_KEY foo`
+
+### Or set the environment variable permanently
+
+- [Linux](https://phoenixnap.com/kb/linux-set-environment-variable#ftoc-heading-9)
+- [Mac](https://phoenixnap.com/kb/set-environment-variable-mac#ftoc-heading-5)
+- [Windows](https://phoenixnap.com/kb/windows-set-environment-variable#ftoc-heading-4)
+
+### Start the Docker container
+
 ```
-ACT_CACHE_AUTH_KEY=foo docker compose up --build
+docker compose up --build
 ```
 
 ## Act config
@@ -20,9 +34,9 @@ Ensure you add the following configuration to your `~/.actrc` file:
 - You can set `ACT_CACHE_AUTH_KEY` and `ACTIONS_RUNTIME_TOKEN` to the value you want, but they must be the same
 - The cache is persisted in Docker's named volumes(when using `docker-compose`) so it will survive between containers
 - To purge the cache use the endpoint `/_apis/artifactcache/clean`. ie
-````
-curl -X POST -H 'Authorization: Bearer foo' 'http://localhost:8080/_apis/artifactcache/clean'
-````
+  - Linux & Mac: `curl -X POST -H 'Authorization: Bearer foo' 'http://localhost:8080/_apis/artifactcache/clean'`
+  - Windows Powershell: `Invoke-WebRequest -Method POST -Headers @{"Authorization"="Bearer foo"} -Uri "http://localhost:8080/_apis/artifactcache/clean"`
+  - Windows CMD: `curl -X POST -H "Authorization: Bearer foo" "http://localhost:8080/_apis/artifactcache/clean"`
 
 ## Caveats
 - The caching is global, meaning that it's shared across git projects and branches. As the container lacks the information of the Github context the action is running on it does not have access to `GITHUB_REPOSITORY`, `GITHUB_REF` or `GITHUB_BASE_REF` so it can do a better job restoring fallback caches or switching branches
