@@ -342,13 +342,13 @@ server.post('/_apis/artifactcache/clean', (req, res) => {
     res.status(200).json({});
 });
 
-server.listen(PORT, () => {
+const appServer = server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 })
 
 process.on('SIGTERM', () => {
   console.log('SIGTERM signal received: closing HTTP server')
-  server.close(() => {
+  appServer.close(() => {
     db.close();
       console.log('HTTP server closed')
   })
