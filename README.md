@@ -25,8 +25,8 @@ docker compose up --build
 ## Act config
 Ensure you add the following configuration to your `~/.actrc` file:
 ````
---env ACTIONS_CACHE_URL=http://localhost:8080/
---env ACTIONS_RUNTIME_URL=http://localhost:8080/
+--env ACTIONS_CACHE_URL=http://127.0.0.1:8080/
+--env ACTIONS_RUNTIME_URL=http://127.0.0.1:8080/
 --env ACTIONS_RUNTIME_TOKEN=foo
 ````
 
@@ -34,9 +34,9 @@ Ensure you add the following configuration to your `~/.actrc` file:
 - You can set `ACT_CACHE_AUTH_KEY` and `ACTIONS_RUNTIME_TOKEN` to the value you want, but they must be the same
 - The cache is persisted in Docker's named volumes(when using `docker-compose`) so it will survive between containers
 - To purge the cache use the endpoint `/_apis/artifactcache/clean`. ie
-  - Linux & Mac: `curl -X POST -H 'Authorization: Bearer foo' 'http://localhost:8080/_apis/artifactcache/clean'`
-  - Windows Powershell: `Invoke-WebRequest -Method POST -Headers @{"Authorization"="Bearer foo"} -Uri "http://localhost:8080/_apis/artifactcache/clean"`
-  - Windows CMD: `curl -X POST -H "Authorization: Bearer foo" "http://localhost:8080/_apis/artifactcache/clean"`
+  - Linux & Mac: `curl -X POST -H 'Authorization: Bearer foo' 'http://127.0.0.1:8080/_apis/artifactcache/clean'`
+  - Windows Powershell: `Invoke-WebRequest -Method POST -Headers @{"Authorization"="Bearer foo"} -Uri "http://127.0.0.1:8080/_apis/artifactcache/clean"`
+  - Windows CMD: `curl -X POST -H "Authorization: Bearer foo" "http://127.0.0.1:8080/_apis/artifactcache/clean"`
 
 ## Caveats
 - The caching is global, meaning that it's shared across git projects and branches. As the container lacks the information of the Github context the action is running on it does not have access to `GITHUB_REPOSITORY`, `GITHUB_REF` or `GITHUB_BASE_REF` so it can do a better job restoring fallback caches or switching branches
